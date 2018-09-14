@@ -2,6 +2,10 @@ const handleRegister = (req, res, pg, bcrypt) => {
   const { name, email, password } = req.body;
   const hash = bcrypt.hashSync(password);
 
+  if(!name || !email || !password) {
+    return res.status(400).json('Invalid form credentials')
+  }
+
   pg.transaction(trx => {
     trx.insert({
       hash: hash,
