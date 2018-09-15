@@ -21,15 +21,13 @@ app.use(cors());
 const pg = knex({
   client: "pg",
   connection: {
-    host: "127.0.0.1",
-    user: "postgres",
-    password: "postgres",
-    database: "smartbrain"
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
   }
 });
 
 // Routes
-app.get("/", (req, res) => res.json(database.users));
+app.get("/", (req, res) => res.json('App works'));
 app.post("/signin", (req, res) => Signin.handleSignin(req, res, pg, bcrypt));
 app.post("/register", (req, res) =>
   Register.handleRegister(req, res, pg, bcrypt)
@@ -37,7 +35,13 @@ app.post("/register", (req, res) =>
 app.get("/profile/:id", (req, res) => Profile.handleProfile(req, res, pg));
 app.put("/image", (req, res) => Image.handleImage(req, res, pg));
 app.post("/imageurl", (req, res) => Image.handleApiCall(req, res));
+
 // Server listening
-app.listen(5000, () => {
-  console.info("App is running on port 5000");
+let port = process.env.PORT
+if(port == null || port == ""){
+  port = 8000;
+}
+
+app.listen(port, () => {
+  console.info(`App is running on port ${port}`);
 });
