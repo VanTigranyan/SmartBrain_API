@@ -4,7 +4,7 @@
   "description": "API for SmartBrain project",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Van Tigranyan",
   "license": "ISC",
